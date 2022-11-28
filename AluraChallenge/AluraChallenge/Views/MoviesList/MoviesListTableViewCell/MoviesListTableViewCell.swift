@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class MoviesListTableViewCell: UITableViewCell {
     
@@ -17,7 +18,8 @@ class MoviesListTableViewCell: UITableViewCell {
     lazy var moviePoster: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 18
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -31,14 +33,15 @@ class MoviesListTableViewCell: UITableViewCell {
     lazy var movieTitle: UILabel = {
         let title = UILabel()
         title.textColor = .white
-        title.font = .systemFont(ofSize: 16.0, weight: .bold)
+        title.font = .systemFont(ofSize: 18.0, weight: .bold)
+        title.numberOfLines = 0
         return title
     }()
     
     lazy var movieRelease: UILabel = {
         let text = UILabel()
         text.textColor = .gray
-        text.font = .systemFont(ofSize: 14.0, weight: .regular)
+        text.font = .systemFont(ofSize: 16.0, weight: .regular)
         return text
     }()
     
@@ -66,20 +69,20 @@ class MoviesListTableViewCell: UITableViewCell {
         moviePoster.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(16)
             make.leading.equalToSuperview().offset(30)
-            make.bottom.equalToSuperview().inset(20)
-            make.width.equalTo(90)
-            make.height.equalTo(120)
+            make.bottom.equalToSuperview().inset(16)
+            make.width.equalTo(120)
         }
         
         textStackView.snp.makeConstraints { make in
             make.centerY.equalTo(moviePoster)
             make.leading.equalTo(moviePoster.snp.trailing).offset(16)
+            make.width.equalTo(200)
         }
     }
     
     func setupCell(movie: Movie) {
-        moviePoster.backgroundColor = .red
+        moviePoster.configPosterImage(movie.posterPath) 
         movieTitle.text = movie.title
-        movieRelease.text = movie.releaseDate
+        movieRelease.text = movie.releaseDate.formatDate()
     }
 }

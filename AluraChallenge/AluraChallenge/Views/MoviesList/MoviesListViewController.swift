@@ -38,11 +38,21 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: screenView.identifier, for: indexPath) as? MoviesListTableViewCell else {
                     return UITableViewCell() }
         cell.backgroundColor = .clear
-        let movie = viewModel.movies[indexPath.row]
-        cell.setupCell(movie: movie)
+        cell.setupCell(movie: viewModel.movies[indexPath.row])
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let viewController = MovieDetailsViewController(movie: viewModel.movies[indexPath.row])
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 212
     }
 }
